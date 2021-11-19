@@ -22,8 +22,7 @@ def _show_residues_from_residue_selector(selector, pose, label="selected_residue
 
 def show_interface_residues(pymol_obj_name, selection_1, selection_2):
     """Show interface residues between two selections."""
-    ppose = pymol_to_rosetta(pymol_obj_name)
-    wpose = packed_pose.to_pose(ppose)
+    wpose = packed_pose.to_pose(pymol_to_rosetta(pymol_obj_name))
     objs = XmlObjects.create_from_string(
         f"""
 <RESIDUE_SELECTORS>
@@ -33,8 +32,6 @@ def show_interface_residues(pymol_obj_name, selection_1, selection_2):
 </RESIDUE_SELECTORS>
 """
     )
-
-    interface_selector = objs.get_residue_selector("interface")
     _show_residues_from_residue_selector(
-        interface_selector, wpose, label="interface_residues"
+        objs.get_residue_selector("interface"), wpose, label="interface_residues"
     )
