@@ -20,7 +20,8 @@ def rosetta_to_pymol(pack_or_pose, pymol_obj_name="pose"):
     wpose = packed_pose.to_pose(pack_or_pose)
     pdb_string_stream = pyrosetta.rosetta.std.stringstream()
     pyrosetta.rosetta.core.io.pdb.dump_pdb(wpose, pdb_string_stream)
-    cmd.read_pdbstr(pdb_string_stream.str(), pymol_obj_name)
+    # this overwrites the object if it already exists - might not always be what we want
+    cmd.read_pdbstr(pdb_string_stream.str(), pymol_obj_name, state=1)
 
 
 def pymol_selection_to_pdb_resnums(selection="all"):
